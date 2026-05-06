@@ -1,21 +1,55 @@
 # Semantic Search System
 
-## Complete Project Documentation
+A full-stack Semantic Search application built using:
+
+- Node.js + Express
+- PostgreSQL + pgvector
+- OpenSearch
+- DuckDB Analytics
+- HTML/CSS/JavaScript Frontend
+
+This project demonstrates:
+
+- Vector embeddings generation
+- Semantic similarity search
+- Keyword search
+- OpenSearch integration
+- Analytical queries using DuckDB
+- Frontend search UI
+- PostgreSQL query optimization
+
+---
+
+# Complete Project Documentation
 
 This README contains:
 
-* Project overview
-* Architecture
-* Backend explanation
-* Frontend explanation
-* PostgreSQL setup
-* pgvector integration
-* OpenSearch integration
-* DuckDB analytics
-* Important source files
-* API endpoints
-* Screenshots
-* Setup instructions
+- Project overview
+- Architecture
+- Backend explanation
+- Frontend explanation
+- PostgreSQL setup
+- pgvector integration
+- OpenSearch integration
+- DuckDB analytics
+- Important source files
+- API endpoints
+- Screenshots
+- Setup instructions
+
+---
+
+# Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Node.js | Backend Runtime |
+| Express.js | API Server |
+| PostgreSQL | Main Database |
+| pgvector | Vector Similarity Search |
+| OpenSearch | Search Engine |
+| DuckDB | Analytics |
+| HTML/CSS/JS | Frontend |
 
 ---
 
@@ -27,26 +61,42 @@ Main backend server built using Node.js and Express.
 
 ### Responsibilities
 
-* PostgreSQL connection
-* pgvector semantic search
-* Embedding generation
-* Full text search
-* OpenSearch integration
-* OpenSearch synchronization
-* Filter APIs
-* REST endpoints
+- PostgreSQL connection
+- pgvector semantic search
+- Embedding generation
+- Full text search
+- OpenSearch integration
+- OpenSearch synchronization
+- Filter APIs
+- REST endpoints
 
 ### Main APIs
 
-| Endpoint                   | Purpose                      |
-| -------------------------- | ---------------------------- |
-| `/api/generate-embeddings` | Generate embeddings          |
-| `/api/search/vector`       | Semantic vector search       |
-| `/api/search/keyword`      | PostgreSQL keyword search    |
-| `/api/search/opensearch`   | OpenSearch query             |
-| `/api/items`               | Product filtering            |
-| `/api/opensearch/setup`    | Create OpenSearch index      |
-| `/api/opensearch/sync`     | Sync PostgreSQL → OpenSearch |
+| Endpoint | Purpose |
+|---|---|
+| `/api/generate-embeddings` | Generate embeddings |
+| `/api/search/vector` | Semantic vector search |
+| `/api/search/keyword` | PostgreSQL keyword search |
+| `/api/search/opensearch` | OpenSearch query |
+| `/api/items` | Product filtering |
+| `/api/opensearch/setup` | Create OpenSearch index |
+| `/api/opensearch/sync` | Sync PostgreSQL → OpenSearch |
+
+---
+
+## Example Express Route
+
+```javascript
+app.get('/api/search/vector', async (req, res) => {
+
+    const query = req.query.q;
+
+    // Generate embedding
+    // Perform vector similarity search
+    // Return results
+
+});
+```
 
 ---
 
@@ -56,20 +106,32 @@ Frontend interface for the application.
 
 ### Features
 
-* Product search
-* Semantic search checkbox
-* Filters
-* Response time display
-* Result count
-* Dynamic rendering
-* Fetch API integration
+- Product search
+- Semantic search checkbox
+- Filters
+- Response time display
+- Result count
+- Dynamic rendering
+- Fetch API integration
 
 ### Filters
 
-* Product type
-* Color
-* Min price
-* Max price
+- Product type
+- Color
+- Min price
+- Max price
+
+---
+
+## Example Frontend API Call
+
+```javascript
+const response = await fetch(
+    `http://localhost:3000/api/search/vector?q=${query}`
+);
+
+const data = await response.json();
+```
 
 ---
 
@@ -79,10 +141,23 @@ DuckDB analytics benchmark script.
 
 ### Responsibilities
 
-* Creates analytical tables
-* Runs aggregation queries
-* Measures execution time
-* Demonstrates column-store analytics
+- Creates analytical tables
+- Runs aggregation queries
+- Measures execution time
+- Demonstrates column-store analytics
+
+---
+
+## Example DuckDB Query
+
+```sql
+SELECT
+    type,
+    count(*) as sales,
+    sum(price) as revenue
+FROM items
+GROUP BY type;
+```
 
 ---
 
@@ -92,83 +167,7 @@ Used to run OpenSearch using Docker.
 
 ### Services
 
-* OpenSearch single-node cluster
-
----
-
-# Semantic Search System
-
-A full-stack Semantic Search application built using:
-
-* Node.js + Express
-* PostgreSQL + pgvector
-* OpenAI Embeddings API
-* OpenSearch
-* DuckDB Analytics
-* HTML/CSS/JavaScript Frontend
-
-This project demonstrates:
-
-* Vector embeddings generation
-* Semantic similarity search
-* Keyword search
-* OpenSearch integration
-* Analytical queries using DuckDB
-* Frontend search UI
-* PostgreSQL query optimization
-
----
-
-# Features
-
-## Semantic Vector Search
-
-Search products using meaning instead of exact keywords.
-
-Example:
-
-* Searching `football shirt` returns `German soccer jersey`
-
-## Keyword Search
-
-Traditional SQL full-text search using PostgreSQL `tsvector`.
-
-## OpenSearch Integration
-
-Data synchronization and search support using OpenSearch.
-
-## DuckDB Analytics
-
-Analytical queries for:
-
-* Revenue
-* Sales count
-* Reviews
-* Returns
-
-## Frontend UI
-
-Simple frontend interface with:
-
-* Search box
-* Semantic search toggle
-* Filters
-* Result cards
-
----
-
-# Tech Stack
-
-| Technology  | Purpose                  |
-| ----------- | ------------------------ |
-| Node.js     | Backend Runtime          |
-| Express.js  | API Server               |
-| PostgreSQL  | Main Database            |
-| pgvector    | Vector Similarity Search |
-| OpenAI API  | Text Embeddings          |
-| OpenSearch  | Search Engine            |
-| DuckDB      | Analytics                |
-| HTML/CSS/JS | Frontend                 |
+- OpenSearch single-node cluster
 
 ---
 
@@ -211,17 +210,21 @@ git clone <your-repository-url>
 cd <project-folder>
 ```
 
+---
+
 ## Install Dependencies
 
 ```bash
 npm install
 ```
 
+---
+
 ## Install PostgreSQL Extensions
 
 Enable:
 
-* pgvector
+- pgvector
 
 SQL:
 
@@ -243,6 +246,8 @@ CREATE TABLE items (
     embedding vector(768)
 );
 ```
+
+---
 
 ## Additional Columns
 
@@ -305,17 +310,23 @@ OpenSearch runs at:
 http://localhost:9200
 ```
 
+---
+
 ## Setup Index
 
 ```text
 http://localhost:3000/api/opensearch/setup
 ```
 
+---
+
 ## Sync Data
 
 ```text
 http://localhost:3000/api/opensearch/sync
 ```
+
+---
 
 ## Search Data
 
@@ -338,67 +349,81 @@ python3 analytics.py
 # Screenshots
 
 ## Backend Running
-
 ![Backend Running](screenshots/frontend.png)
 
-## Generate Embeddings API
+---
 
+## Generate Embeddings API
 ![Generate Embeddings](screenshots/generate-embeddings.png)
 
-## Vector Search API
+---
 
+## Vector Search API
 ![Vector Search API](screenshots/vector-search-api.png)
 
-## Frontend Empty State
+---
 
+## Frontend Empty State
 ![Frontend Empty](screenshots/frontend-search-empty.png)
 
-## Frontend Vector Search Results
+---
 
+## Frontend Vector Search Results
 ![Frontend Vector Results](screenshots/frontend-vector-results.png)
 
-## PostgreSQL Query Results
+---
 
+## PostgreSQL Query Results
 ![Postgres Query Results](screenshots/postgres-query-results.png)
 
-## PostgreSQL Query Plan
+---
 
+## PostgreSQL Query Plan
 ![Postgres Query Plan](screenshots/postgres-query-plan.png)
 
-## DuckDB Analytics Results
+---
 
+## DuckDB Analytics Results
 ![DuckDB Results](screenshots/duckdb-results.png)
 
-## Frontend Keyword Search Results
+---
 
+## Frontend Keyword Search Results
 ![Frontend Keyword Results](screenshots/frontend-keyword-results.png)
 
-## Frontend Semantic Search Results
+---
 
+## Frontend Semantic Search Results
 ![Frontend Semantic Results](screenshots/frontend-semantic-results.png)
 
-## More Semantic Search Results
+---
 
+## More Semantic Search Results
 ![More Semantic Results](screenshots/frontend-semantic-results-continued.png)
 
-## Database Schema
+---
 
+## Database Schema
 ![Database Schema](screenshots/database-schema.png)
 
-## OpenSearch Running
+---
 
+## OpenSearch Running
 ![OpenSearch Running](screenshots/opensearch-running.png)
 
-## OpenSearch Setup API
+---
 
+## OpenSearch Setup API
 ![OpenSearch Setup](screenshots/opensearch-setup-api.png)
 
-## OpenSearch Sync API
+---
 
+## OpenSearch Sync API
 ![OpenSearch Sync](screenshots/opensearch-sync-api.png)
 
-## OpenSearch Search API
+---
 
+## OpenSearch Search API
 ![OpenSearch Search](screenshots/opensearch-search-api.png)
 
 ---
@@ -423,16 +448,15 @@ This demonstrates semantic similarity instead of exact keyword matching.
 
 # Future Improvements
 
-* React frontend
-* Better UI styling
-* Image search support
-* Hybrid ranking
-* Authentication
-* Real-time analytics dashboard
+- React frontend
+- Better UI styling
+- Image search support
+- Hybrid ranking
+- Authentication
+- Real-time analytics dashboard
 
 ---
 
 # Author
 
 Preethi Chikkakalya Manjunath
-
