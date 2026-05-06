@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Semantic Search Demo</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input,
+        select,
+        button {
+
+            padding: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .toolbar {
+            margin-bottom: 20px;
+        }
+
+        .result {
+
+            background: white;
+
+            border: 1px solid #ddd;
+
+            padding: 15px;
+
+            margin-bottom: 15px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+        }
+
+        .result img {
+
+            width: 150px;
+
+            border-radius: 8px;
+        }
+
+        .result-content {
+            flex: 1;
+        }
+
+        .meta {
+
+            color: #555;
+
+            margin-top: 5px;
+        }
+
+        .stats {
+
+            background: white;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Semantic Search Demo</h1>
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            id="query"
+            placeholder="Search products..."
+        >
+
+        <button onclick="search()">
+            Search
+        </button>
+
+        <br>
+
+        <label>
+
+            <input
+                type="checkbox"
+                id="semantic"
+            >
+
+            Use Semantic Vector Search
+
+        </label>
+
+        <br><br>
+
+        <select id="type">
+
+            <option value="">
+                All Types
+            </option>
+
+            <option value="Sports">
+                Sports
+            </option>
+
+            <option value="Footwear">
+                Footwear
+            </option>
+
+            <option value="Electronics">
+                Electronics
+            </option>
+
+            <option value="Clothing">
+                Clothing
+            </option>
+
+        </select>
+
+        <select id="color">
+
+            <option value="">
+                All Colors
+            </option>
+
+            <option value="red">
+                Red
+            </option>
+
+            <option value="white">
+                White
+            </option>
+
+            <option value="black">
+                Black
+            </option>
+
+            <option value="blue">
+                Blue
+            </option>
+
+        </select>
+
+        <input
+            type="number"
+            id="minPrice"
+            placeholder="Min Price"
+        >
+
+        <input
+            type="number"
+            id="maxPrice"
+            placeholder="Max Price"
+        >
+
+    </div>
+
+    <div id="stats"></div>
+
+    <div id="results"></div>
+
+    <script>
+
+        async function search() {
+
+            const query =
+                document.getElementById('query').value;
+
+            const semantic =
+                document.getElementById('semantic').checked;
+
+            const type =
+                document.getElementById('type').value;
+
+            const color =
+                document.getElementById('color').value;
+
+            const minPrice =
+                document.getElementById('minPrice').value;
+
+            const maxPrice =
+                document.getElementById('maxPrice').value;
+
+            let url;
+
+            // ------------------------------------------
+            // Search mode
+            // ------------------------------------------
+
+            if (query) {
+
+                url = semantic
+
+                    ? `http://localhost:3000/api/search/vector?q=${encodeURIComponent(query)}`
+
+                    : `http://localhost:3000/api/search/keyword?q=${encodeURIComponent(query)}`;
+
+            }
+
+            // ------------------------------------------
+            // Filter mode
+            // ------------------------------------------
+
+            else {
+
+                url =
+                    `http://localhost:3000/api/items?` +
+                    `type=${type}` +
+                    `&color=${color}` +
+                    `&minPrice=${minPrice}` +
+                    `&maxPrice=${maxPrice}`;
+            }
+
+            const response =
+                await fetch(url);
+
+            const data =
+                await response.json();
+
+            const resultsDiv =
+                document.getElementById('results');
+
+            const statsDiv =
+                document.getElementById('stats');
+
+            resultsDiv.innerHTML = '';
+
+            statsDiv.innerHTML = `
+                <div class="stats">
+                    <strong>Results:</strong> ${data.count}
+                    |
+                    <strong>Response Time:</strong>
+                    ${data.responseTimeMs} ms
+                </div>
+            `;
+
+            data.results.forEach(item => {
+
+                resultsDiv.innerHTML += `
+
+                    <div class="result">
+
+                        <img
+                            src="https://placehold.co/200x200"
+                            alt="Item Image"
+                        >
+
+                        <div class="result-content">
+
+                            <h2>${item.title}</h2>
+
+                            <p>${item.description}</p>
+
+                            <div class="meta">
+
+                                <strong>Type:</strong>
+                                ${item.type || '-'}
+
+                                <br>
+
+                                <strong>Color:</strong>
+                                ${item.color || '-'}
+
+                                <br>
+
+                                <strong>Category:</strong>
+                                ${item.category || '-'}
+
+                                <br>
+
+                                <strong>Price:</strong>
+                                $${item.price || '-'}
+
+                            </div>
+
+                            ${item.distance
+                                ? `
+                                    <p>
+                                        <strong>Distance:</strong>
+                                        ${item.distance}
+                                    </p>
+                                `
+                                : ''
+                            }
+
+                            ${item.rank
+                                ? `
+                                    <p>
+                                        <strong>Rank:</strong>
+                                        ${item.rank}
+                                    </p>
+                                `
+                                : ''
+                            }
+
+                        </div>
+
+                    </div>
+                `;
+            });
+        }
+
+    </script>
+
+</body>
+</html>
