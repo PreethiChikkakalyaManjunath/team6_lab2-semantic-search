@@ -1,5 +1,103 @@
 # Semantic Search System
 
+## Complete Project Documentation
+
+This README contains:
+
+* Project overview
+* Architecture
+* Backend explanation
+* Frontend explanation
+* PostgreSQL setup
+* pgvector integration
+* OpenSearch integration
+* DuckDB analytics
+* Important source files
+* API endpoints
+* Screenshots
+* Setup instructions
+
+---
+
+# Important Project Files
+
+## 1. server.js
+
+Main backend server built using Node.js and Express.
+
+### Responsibilities
+
+* PostgreSQL connection
+* pgvector semantic search
+* Embedding generation
+* Full text search
+* OpenSearch integration
+* OpenSearch synchronization
+* Filter APIs
+* REST endpoints
+
+### Main APIs
+
+| Endpoint                   | Purpose                      |
+| -------------------------- | ---------------------------- |
+| `/api/generate-embeddings` | Generate embeddings          |
+| `/api/search/vector`       | Semantic vector search       |
+| `/api/search/keyword`      | PostgreSQL keyword search    |
+| `/api/search/opensearch`   | OpenSearch query             |
+| `/api/items`               | Product filtering            |
+| `/api/opensearch/setup`    | Create OpenSearch index      |
+| `/api/opensearch/sync`     | Sync PostgreSQL → OpenSearch |
+
+---
+
+## 2. index.html
+
+Frontend interface for the application.
+
+### Features
+
+* Product search
+* Semantic search checkbox
+* Filters
+* Response time display
+* Result count
+* Dynamic rendering
+* Fetch API integration
+
+### Filters
+
+* Product type
+* Color
+* Min price
+* Max price
+
+---
+
+## 3. analytics.py
+
+DuckDB analytics benchmark script.
+
+### Responsibilities
+
+* Creates analytical tables
+* Runs aggregation queries
+* Measures execution time
+* Demonstrates column-store analytics
+
+---
+
+## 4. docker-compose.yml
+
+Used to run OpenSearch using Docker.
+
+### Services
+
+* OpenSearch single-node cluster
+
+---
+
+# Semantic Search System
+
 A full-stack Semantic Search application built using:
 
 * Node.js + Express
